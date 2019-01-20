@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration scan="true" scanPeriod="30 seconds">
+
+	<property name="LOG_HOME" value="./logs" />
+	<property name="ARCH_LOG_HOME" value="./logs/archive" />
+
+	<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+		<filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+			<level>trace</level>
+		</filter>
+		<encoder>
+			<charset>UTF-8</charset>
+			<pattern>%d{HH:mm:ss.SSS} - %msg%n</pattern>
+		</encoder>
+	</appender>	
+
+	<appender name="MAIN_LOG_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+			<level>trace</level>
+		</filter>
+		<file>${LOG_HOME}/advisor_main.log</file>				
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<!-- daily rollover -->
+			<fileNamePattern>${ARCH_LOG_HOME}/%d{yyyyMMdd}/advisor_main.log</fileNamePattern>
+			<!-- keep 10 days worth of history -->
+			<maxHistory>30</maxHistory> 
+			<cleanHistoryOnStart>true</cleanHistoryOnStart>
+		</rollingPolicy>
+		<encoder>
+			<charset>UTF-8</charset>
+			<pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{35} - %msg%n</pattern>
+		</encoder>
+	</appender>
+
+	<appender name="THREAD_LOG_FILE" class="ch.qos.logback.classic.sift.SiftingAppender">
+		<discriminator>
+			<key>THREAD_LOGGERID</key>	  
+			<defaultValue>thread</defaultValue>
+		</discriminator>
+		<sift>      
+			<appender name="logs/${THREAD_LOGGERID}_thread" class="ch.qos.logback.core.rolling.RollingFileAppender">	  
+				<filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+					<level>TRACE</level>
+				</filter>
+				<file>${LOG_HOME}/${THREAD_LOGGERID}.log</file>
+				<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+					<!-- daily rollover -->
+					<fileNamePattern>${ARCH_LOG_HOME}/%d{yyyyMMdd}/${THREAD_LOGGERID}.log</fileNamePattern>
+					<!-- keep 30 days worth of history -->
+					<maxHistory>30</maxHistory> 
+					<cleanHistoryOnStart>true</cleanHistoryOnStart>
+				</rollingPolicy>			
+				<append>false</append>
+				<encoder>
+					<charset>UTF-8</charset>
+				</encoder>
+				<layout class="ch.qos.logback.classic.PatternLayout">
+					<pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{20} - %msg%n</pattern>
+				</layout>
+			</appender>
+		</sift>
+	</appender>
+
+	<logger name="ru.slayter.stock.advisor" level="trace">	    
+		<appender-ref ref="MAIN_LOG_FILE" />
+	</logger>	
+
+	<logger name="ru.slayter.stock.strategies" level="trace">
+		<appender-ref ref="THREAD_LOG_FILE" />
+	</logger>
+
+	<logger name="ru.slayter.stock.moex" level="trace">
+		<appender-ref ref="THREAD_LOG_FILE" />
+	</logger>
+	
+	<root level="TRACE">
+		<appender-ref ref="STDOUT" />   	   
+	</root>	
+
+
+</configuration>

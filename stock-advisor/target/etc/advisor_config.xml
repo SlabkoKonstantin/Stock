@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<configuration>
+	<modules>./strategies</modules>
+	<database>jdbc:sqlite:./database/stock-db.db</database>
+	<reports>./reports</reports>
+	<pool>
+		<size>6</size> 
+		<timeouts>
+			<onetask>60</onetask> 
+			<awaitTermination>60</awaitTermination> 
+		</timeouts>
+	</pool>
+</configuration>	

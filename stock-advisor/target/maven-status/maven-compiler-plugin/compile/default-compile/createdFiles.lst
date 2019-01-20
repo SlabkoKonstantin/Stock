@@ -1,0 +1,12 @@
+ru\slayter\stock\advisor\configuration\Configuration$Pool.class
+ru\slayter\stock\advisor\database\Database.class
+ru\slayter\stock\advisor\configuration\ObjectFactory.class
+ru\slayter\stock\advisor\configuration\Configuration$Pool$Timeouts.class
+ru\slayter\stock\advisor\configuration\XmlConfiguration.class
+ru\slayter\stock\advisor\reports\Report.class
+ru\slayter\stock\advisor\Main.class
+ru\slayter\stock\advisor\reports\Report$1.class
+ru\slayter\stock\advisor\tasks\Task.class
+ru\slayter\stock\advisor\configuration\Configuration.class
+ru\slayter\stock\advisor\tasks\TaskManager.class
+ru\slayter\stock\advisor\tasks\TaskCallable.class

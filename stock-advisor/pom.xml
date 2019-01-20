@@ -1,0 +1,187 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>ru.slayter.stock.advisor</groupId>
+	<artifactId>stock-advisor</artifactId>
+	<packaging>jar</packaging>
+	<version>1.0.0</version>
+
+	<name>stock-advisor</name>
+	<url>http://maven.apache.org</url>
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<maven.compiler.source>1.8</maven.compiler.source>
+		<maven.compiler.target>1.8</maven.compiler.target>
+	</properties>  
+
+	<dependencies>
+
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>3.8.1</version>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>ch.qos.logback</groupId>
+			<artifactId>logback-classic</artifactId>
+			<version>1.2.3</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.xerial</groupId>
+			<artifactId>sqlite-jdbc</artifactId>
+			<version>3.21.0.1</version>
+		</dependency>
+
+		<dependency>
+			<groupId>ru.slayter.stock.commons</groupId>
+			<artifactId>stock-commons</artifactId>
+			<version>1.0.0</version>
+		</dependency>
+
+		<dependency>
+			<groupId>ru.slayter.stock.strategies</groupId> 
+			<artifactId>stock-strategy-common</artifactId> 
+			<version>1.0.0</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.webfirmframework</groupId>
+			<artifactId>wffweb</artifactId>
+			<version>3.0.0</version>
+		</dependency>
+
+		<dependency>
+			<groupId>ru.slayter.stock.strategies</groupId>
+			<artifactId>stock-strategy-loader</artifactId>
+			<version>1.0.0</version>
+		</dependency>
+
+	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.1</version>
+				<configuration>
+					<!--source>${jdk.version}</source-->
+					<source>1.8</source>
+					<target>1.8</target>
+				</configuration>
+			</plugin>
+
+			<!-- Make this jar executable -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+				<version>2.4</version>
+				<configuration>
+					<archive>
+						<manifest>
+							<addClasspath>true</addClasspath>					
+							<classpathPrefix>libs/</classpathPrefix>
+							<!-- Jar file entry point -->
+							<mainClass>ru.slayter.stock.advisor.Main</mainClass>
+						</manifest>
+						<manifestEntries>
+							<Class-Path>./etc/</Class-Path>
+						</manifestEntries>					
+					</archive>
+				</configuration>
+			</plugin>
+
+			<!-- Copy project dependency -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-dependency-plugin</artifactId>
+				<version>2.5.1</version>
+				<executions>
+					<execution>
+						<id>copy-dependencies</id>
+						<phase>package</phase>
+						<goals>
+							<goal>copy-dependencies</goal>
+						</goals>
+						<configuration>
+							<!-- exclude junit, we need runtime dependency only -->
+							<includeScope>runtime</includeScope>
+							<outputDirectory>${project.build.directory}/libs/</outputDirectory>
+						</configuration>					
+					</execution>
+				</executions>
+			</plugin>			
+
+			<!-- Copy files to output directory -->
+			<plugin>
+				<artifactId>maven-resources-plugin</artifactId>
+				<version>2.4.3</version>
+				<executions>
+
+					<execution>
+						<id>copy-resources</id>
+						<phase>validate</phase>
+						<goals>
+							<goal>copy-resources</goal>
+						</goals>
+						<configuration>
+							<outputDirectory>${project.build.directory}</outputDirectory>
+							<encoding>UTF-8</encoding>
+							<resources>
+
+								<!--start.bat-->
+								<resource>
+									<filtering>false</filtering>
+									<targetPath>${project.build.directory}/</targetPath>
+									<directory>${project.basedir}/</directory>								
+									<includes>
+										<include>start.bat</include>										
+									</includes>								
+								</resource>
+
+								<!--configs-->
+								<resource>
+									<filtering>false</filtering>
+									<targetPath>${project.build.directory}/etc/</targetPath>
+									<directory>${project.basedir}/etc/</directory>
+									<includes>
+										<include>*.xml</include>										
+										<!--include>tasks_executor_config.xml</include>
+										<include>logback.xml</include-->
+									</includes>
+									<excludes>
+										<exclude>*backup.xml</exclude>
+									</excludes>
+								</resource>
+
+								<!--modules-->
+								<resource>
+									<filtering>false</filtering>
+									<targetPath>${project.build.directory}/strategies/</targetPath>
+									<directory>${project.basedir}/strategies/</directory>
+								</resource>
+
+								<!--database-->
+								<resource>
+									<filtering>false</filtering>
+									<targetPath>${project.build.directory}/database/</targetPath>
+									<directory>${project.basedir}/database/</directory>
+								</resource>
+
+							</resources>							
+						</configuration>
+					</execution>
+
+				</executions>
+			</plugin>	
+
+
+		</plugins>
+	</build>
+
+</project>

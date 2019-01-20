@@ -1,0 +1,35 @@
+prefs set fiddler.proxy.creds c2xhYmtvOnlmW2h0eWZSSlBULGZ6eTkwMSs=
+
+c2xhYmtvOnlmW2h0eWZSSlBULGZ6eTkwMSs=
+
+
+/iss/engines/[engine]/markets/[market]/securities/[security]/candles
+
+http://iss.moex.com/iss/history/engines/stock/markets/shares/boards/tqbr/securities.xml?date=2013-12-20
+
+http://iss.moex.com/iss/engines/[engine]/markets/[market]/securities/[security]/candles
+
+
+1. http://iss.moex.com/iss/engines.xml 
+-> <row id="1" name="stock" title="Фондовый рынок и рынок депозитов"/>
+
+http://iss.moex.com/iss/engines/stock/markets/[market]/securities/[security]/candles
+
+2. http://iss.moex.com/iss/engines/stock/markets.xml 
+-> <row id="1" NAME="shares" title="Рынок акций"/>
+
+http://iss.moex.com/iss/engines/stock/markets/shares/securities/[security]/candles
+
+3. http://iss.moex.com/iss/engines/stock/markets/shares/boards.xml
+-> <row id="129" board_group_id="57" boardid="TQBR" title="Т+ Акции и ДР" is_traded="1"/>
+
+Учитываем, что TQBR получили еще и по ссылке http://iss.moex.com/iss/securities.xml?q=ALRS
+
+4.http://iss.moex.com/iss/engines/stock/markets/shares/boards/TQBR/securities.xml
+-> <row SECID="ALRS" BOARDID="TQBR" SHORTNAME="АЛРОСА ао" PREVPRICE="81.5" LOTSIZE="100" FACEVALUE="0.5" STATUS="A" BOARDNAME="Т+ Акции и ДР" DECIMALS="2" SECNAME="АЛРОСА ПАО ао" REMARKS="" MARKETCODE="FNDT" INSTRID="EQIN" SECTORID="EQ-N" MINSTEP="0.01" PREVWAPRICE="81.44" FACEUNIT="SUR" PREVDATE="2018-01-30" ISSUESIZE="7364965630" ISIN="RU0007252813" LATNAME="ALROSA ao" REGNUMBER="1-03-40046-N" PREVLEGALCLOSEPRICE="81.5" PREVADMITTEDQUOTE="81.5" CURRENCYID="SUR" SECTYPE="1" LISTLEVEL="1"/>
+
+
+
+http://iss.moex.com/iss/engines/stock/markets/shares/boards/TQBR/securities/ALRS/candles.xml?from=2018-01-01&till=2018-01-31&interval=24&start=0
+
+Вуаля, наше все!!!
