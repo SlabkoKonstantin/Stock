@@ -68,6 +68,23 @@ public class Candlestick extends javax.swing.JPanel {
 			JFreeChart chart = ChartFactory.createCandlestickChart(header, "Время", "Цена", ohlcDataset, true);
 
 			CandlestickRenderer renderer = new CandlestickRenderer();
+			
+			if (ohlcDataset.getItemCount(0) <= 20) {
+	            renderer.setAutoWidthMethod(CandlestickRenderer.WIDTHMETHOD_AVERAGE);
+	        } else if(ohlcDataset.getItemCount(0)<= 40){
+	            renderer.setCandleWidth(8.5);
+	        } else if(ohlcDataset.getItemCount(0)<= 50){
+	            renderer.setCandleWidth(7.5);
+	        } else if(ohlcDataset.getItemCount(0)<= 70){
+	            renderer.setCandleWidth(6.5);
+	        } else if(ohlcDataset.getItemCount(0)<= 90){
+	            renderer.setCandleWidth(5.5);
+	        } else if(ohlcDataset.getItemCount(0)<= 100){
+	            renderer.setCandleWidth(4.5);            
+	        } else if(ohlcDataset.getItemCount(0) > 300){
+	            renderer.setCandleWidth(3.5);
+	        }
+			
 			renderer.setAutoWidthMethod(CandlestickRenderer.WIDTHMETHOD_AVERAGE);
 			XYPlot plot = chart.getXYPlot();
 			plot.setRenderer(renderer);

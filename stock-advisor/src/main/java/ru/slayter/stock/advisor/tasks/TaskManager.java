@@ -3,6 +3,7 @@ package ru.slayter.stock.advisor.tasks;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
+import java.util.Set;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
@@ -48,7 +49,7 @@ public class TaskManager {
 					// вытягиваем свойства задачи и помещаем их в задачу
 					Properties taskProperties =database.getTaskProperties(task.getId());
 					taskProperties.setProperty(Constants.REPORT_HTML_PATH, this.configuration.getReports()); // добавляем информацию о каталоге отчета					
-					task.setProperties(taskProperties); 
+					task.setProperties(taskProperties);
 					// тут на всякий случай отметим, что свойство задачи PREFIX задается еще и в коде TaskCallable
 					
 					// динамически загружаем класс-исполнитель
